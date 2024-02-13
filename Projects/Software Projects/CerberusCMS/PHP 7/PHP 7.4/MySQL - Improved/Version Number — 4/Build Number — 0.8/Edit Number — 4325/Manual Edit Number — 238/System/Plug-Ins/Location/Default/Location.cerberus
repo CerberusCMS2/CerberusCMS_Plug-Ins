@@ -1,0 +1,178 @@
+<?php
+/*
+ ============================================================================================================
+ + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ + Cerberus Content Management System
+ + ----------------------------------------------------------------------------------------------------------
+ + - Author			 : Gary Christopher Johnson of Oildale and SouthGate In Southern California
+ + - Company			 : CerberusCMS, Free and Open Source Software
+ + - Company Address		 : Oildale In Southern California, United States of America
+ + - Electronic Mail Address	 : CerberusCMS2@Proton.me
+ + - Document Notes		 : View this file in a non-formatting text editor without word-wrap for the
+ +				 : correct display of this programming code and its indentation.
+ + ----------------------------------------------------------------------------------------------------------
+ +    () --- () () () () -- ()
+ +  ()  () () () () -- () ()()()
+ +  ------
+ + Plug-In Application Module
+ + ----------------------------------------------------------------------------------------------------------
+ + - This File, Location	 : Root Directory => System => Plug-Ins => Location => Default => Location
+ + - This File, Version		 : 0.7.2
+ + - This File, Programming Code : Pure Pre-Hyper-Text-Post-Processor
+ + - Programming Code Model	 : Procedural, Functional, Object Oriented :: Pre-Order Algebraic
+ + -				 :					   :: Pre-Order Logical
+ + - Compatibility		 : Extensible-Markup-Language		   :: Version Numbers: 1, 1.1
+ + - Compatibility		 : Hyper-Text-Markup-Language		   :: Version Numbers: 1, 2, 3, 4, 5
+ + - Compatibility		 : Pre-Hyper-Text-Post-Processor 	   :: Version Numbers: 5, 7, 8
+ + - Compatibility		 : Zend Engine				   :: Version Numbers: 3, 4
+ + - Official Release Date	 : Wednesday, January 31st of 2024
+ + ----------------------------------------------------------------------------------------------------------
+ + -------------------------------------------------------------------------------	 - Nyx -
+ + --[][]--[][][]--[][][]--[][][]---[][][]--[][][]--[]--[]------[][][]------------   []++++||=======>
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]----------------
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]----------------    |'-._/\_.-'|
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]----------------    |    []    |
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]----------------    |___-[]-___|
+ + -[]-----[][][]--[][][]--[][][]---[][][]--[][][]--[]--[]------[]----------------    |__((**))__|
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]----------------    \   -[]-   /
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]------------/-\-     \   []   /
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]---VERSION--|4|-	\  []  /
+ + --[][]--[][][]--[]--[]--[][][]---[][][]--[]--[]--[][][]--[][][]------------\-/-	 '.[].'
+ + -------------------------------------------------------------------------------
+ + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Build Number: 0.8 - Final
+ + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Edit Number : 4,325
+ ============================================================================================================
+*/
+
+/*
+ ============================================================================================================
+ +
+ +
+ +
+ + [ ^ ] Cerberus :: Plug-In :: Location
+ +
+ +
+ +
+ ============================================================================================================
+*/
+
+/*
+ ============================================================================================================
+ +
+ +
+ + Plug-In :: Location :: Location By Global-Positioning-System :: Coordinates :: JavaScript
+ +
+ +
+ ============================================================================================================
+*/
+
+/*
+ ============================================================================================================
+ +
+ + Plug-In :: Location :: Location By Global-Positioning-System :: Coordinates :: JavaScript :: X, Y, Z
+ + Longitude, Latitude and Altitude :: Application Panel
+ ============================================================================================================
+*/
+
+$_GLOBAL_SYSTEM_PLUGIN_LOCATION_GPS_COORDINATES_XYZ_HTML5_APPLICATION_PANEL			= "
+<!--Open Script-->
+
+<SCRIPT>
+
+<!--Variables-->
+
+<!--Get Element of Function Longitude and Latitude-->
+
+var ElementGetLocationLongitude							= document.getElementById(\"getLocationOutputLongitude\");
+var ElementGetLocationLatitude							= document.getElementById(\"getLocationOutputLatitude\");
+var ElementGetLocationAltitude							= document.getElementById(\"getLocationOutputAltitude\");
+
+<!--Console Log of Function Longitude and Latitude-->
+
+console.log(ElementGetLocationLongitude);
+console.log(ElementGetLocationLatitude);
+console.log(ElementGetLocationAltitude);
+console.log(getLocation());
+
+<!--Function Get Longitude and Latitude-->
+
+function getLocation() {
+
+<!--IF Navigation of GeoLocation Function-->
+
+if (navigator.geolocation) {
+
+	navigator.geolocation.getCurrentPosition(showPosition);
+
+} else {
+
+ 	ElementGetLocationLongitude.innerHTML = \"Kernel Message: Location :: Geographical-Location :: JavaScript :: Is Not Supported By This Web Browser\";
+ 	ElementGetLocationLatitude.innerHTML = \"Kernel Message: Location :: Geographical-Location :: JavaScript :: Is Not Supported By This Web Browser\";
+ 	ElementGetLocationAltitude.innerHTML = \"Kernel Message: Location :: Geographical-Location :: JavaScript :: Is Not Supported By This Web Browser\";
+
+}
+
+}
+
+<!--Function Show Longitude, Latitude and Altitude Position Coordinates Based on Position Function-->
+
+function showPosition(position) {
+
+console.log(position)
+	ElementGetLocationLongitude.innerHTML = + position.coords.longitude;
+	ElementGetLocationLatitude.innerHTML = + position.coords.latitude;
+	ElementGetLocationAltitude.innerHTML = + position.coords.altitude;
+
+}
+
+<!--Close Script-->
+
+</SCRIPT>
+";
+
+/*
+ ============================================================================================================
+ +
+ + Plug-In :: Location :: Location By Global-Positioning-System :: Coordinates :: JavaScript :: X, Y
+ + Longitude and Latitude With Hyper-Text Reference
+ ============================================================================================================
+*/
+
+$_GLOBAL_SYSTEM_PLUGIN_LOCATION_GPS_COORDINATES_XY_HTML5_HTR_APPLICATION_PANEL		= "
+
+<SCRIPT>
+
+getLocation();
+
+function getLocation() {
+
+if (navigator.geolocation) {
+
+	navigator.geolocation.getCurrentPosition(createMapsLink, function(e) { document.getElementById('OutputLocation').innerHTML = \"Kernel Message: Location :: Cannot Access The Global-Positioning-System Coordinates Position, HTTPS Is Required: \" + e.code; });
+
+} else {
+
+	document.getElementById('OutputLocation').innerHTML = \"Kernel Message: Location :: Geographical-Location :: JavaScript :: Is Not Supported By This Web Browser\";
+
+}
+
+}
+
+function createMapsLink(position) {
+
+	const a = document.createElement(\"a\");
+
+	a.href = 'https://www.Google.com/maps/place/' + position.coords.latitude + ',' + position.coords.longitude;
+	a.target = '_blank';
+
+	const linktext = document.createTextNode('Display Map');
+
+	a.appendChild(linktext); 
+	document.getElementById('OutputLocation').appendChild(a);
+
+}
+
+</SCRIPT>
+";
+?>
