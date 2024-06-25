@@ -1,0 +1,266 @@
+<?php
+/*
+ ============================================================================================================
+ + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ + Cerberus Content Management System
+ + ----------------------------------------------------------------------------------------------------------
+ + - Author			 : Gary Christopher Johnson of Oildale and SouthGate In Southern California
+ + - Company			 : CerberusCMS, Free and Open Source Software
+ + - Company Address		 : Oildale In Southern California, United States of America
+ + - Electronic Mail Address	 : CerberusCMS2@Proton.me
+ + - Document Notes		 : View this file in a non-formatting text editor without word-wrap for the
+ +				 : correct display of this programming code and its indentation.
+ + ----------------------------------------------------------------------------------------------------------
+ +    () --- () () () () -- ()
+ +  ()  () () () () -- () ()()()
+ +  ------
+ + Plug-In Application Module
+ + ----------------------------------------------------------------------------------------------------------
+ + - This File, Location	 : Root Directory => System => Plug-Ins => Camera => Default => Camera
+ + - This File, Version		 : 0.7.3
+ + - This File, Programming Code : Pure Pre-Hyper-Text-Post-Processor
+ + - Programming Code Model	 : Procedural, Functional, Object Oriented :: Pre-Order Algebraic
+ + -				 :					   :: Pre-Order Logical
+ + - Compatibility		 : Extensible-Markup-Language		   :: Version Numbers: 1, 1.1
+ + - Compatibility		 : Hyper-Text-Markup-Language		   :: Version Numbers: 1, 2, 3, 4, 5
+ + - Compatibility		 : Pre-Hyper-Text-Post-Processor 	   :: Version Numbers: 5, 7, 8
+ + - Compatibility		 : Zend Engine				   :: Version Numbers: 3, 4
+ + - Official Release Date	 : Monday, May 13th of 2024
+ + ----------------------------------------------------------------------------------------------------------
+ + -------------------------------------------------------------------------------	 - Nyx -
+ + --[][]--[][][]--[][][]--[][][]---[][][]--[][][]--[]--[]------[][][]------------   []++++||=======>
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]----------------
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]----------------    |'-._/\_.-'|
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]----------------    |    []    |
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]----------------    |___-[]-___|
+ + -[]-----[][][]--[][][]--[][][]---[][][]--[][][]--[]--[]------[]----------------    |__((**))__|
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]----------------    \   -[]-   /
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]------------/-\-     \   []   /
+ + -[]-----[]------[]--[]--[]---[]--[]------[]--[]--[]--[]------[]---VERSION--|4|-	\  []  /
+ + --[][]--[][][]--[]--[]--[][][]---[][][]--[]--[]--[][][]--[][][]------------\-/-	 '.[].'
+ + -------------------------------------------------------------------------------
+ + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Build Number: 44 - Final
+ + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Edit Number : 4,559
+ ============================================================================================================
+*/
+
+/*
+ ============================================================================================================
+ +
+ +
+ +
+ + [ ^ ] Plug-In :: Camera
+ +
+ +
+ +
+ ============================================================================================================
+*/
+
+/*
+ ============================================================================================================
+ +
+ + [ @ ] Plug-In :: Camera :: Device :: Test
+ +
+ ============================================================================================================
+*/
+
+$_Application_Module_PlugIn_Camera_DEVICE_TEST			= "
+<SCRIPT>
+async function main () {
+
+	const buttonStart		= document.querySelector('#buttonStart')
+	const buttonStop		= document.querySelector('#buttonStop')
+	const videoLive			= document.querySelector('#videoLive')
+	const videoRecorded		= document.querySelector('#videoRecorded')
+
+	const stream			= await navigator.mediaDevices.getUserMedia({
+	video: true,
+	audio: true,
+
+})
+
+	videoLive.srcObject		= stream
+
+if (!MediaRecorder.isTypeSupported('video/webm')) {
+
+	console.warn('WEBM Video Is Not Supported By This Web Browser')
+
+}
+
+	const mediaRecorder		= new MediaRecorder(stream, {
+
+	mimeType: 'video/webm',
+
+})
+
+	buttonStart.addEventListener('click', () => {
+
+	mediaRecorder.start()
+	buttonStart.setAttribute('disabled', '')
+	buttonStop.removeAttribute('disabled')
+
+})
+
+	buttonStop.addEventListener('click', () => {
+
+	mediaRecorder.stop()
+	buttonStart.removeAttribute('disabled')
+	buttonStop.setAttribute('disabled', '')
+
+})
+
+	mediaRecorder.addEventListener('dataavailable', event => {
+
+	videoRecorded.src		= URL.createObjectURL(event.data)
+
+})
+}
+
+main()
+</SCRIPT>
+";
+
+/*
+ ============================================================================================================
+ +
+ + [ @ ] Plug-In :: Camera :: Device :: Test
+ +
+ ============================================================================================================
+*/
+
+$_Application_Module_PlugIn_Camera_DEVICE_TEST_2		= "
+<SCRIPT>
+var video				= document.querySelector('video');
+video.autoplay				= true;
+
+navigator.getUserMedia({video: true}, 
+
+function(stream) {
+
+	video.src			= window.URL.createObjectURL(stream);
+
+}, function(e) {
+
+	console.error(e);
+
+});
+
+var canvas				= document.querySelector('canvas');
+ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+var rafId;
+var frames				= [];
+var CANVAS_WIDTH			= canvas.width;
+var CANVAS_HEIGHT			= canvas.height;
+
+function drawVideoFrame(time) {
+
+	rafId				= requestAnimationFrame(drawVideoFrame);
+	ctx.drawImage(video, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+	frames.push(canvas.toDataURL('image/webp', 1));
+
+};
+
+rafId					= requestAnimationFrame(drawVideoFrame);
+
+function stop() {
+	cancelAnimationFrame(rafId);
+
+var webmBlob				= Whammy.fromImageArray(frames, 1000 / 60);
+var video				= document.createElement('video');
+video.src				= window.URL.createObjectURL(webmBlob);
+
+	document.body.appendChild(video);
+}
+</SCRIPT>
+";
+
+/*
+ ============================================================================================================
+ +
+ + [ @ ] Plug-In :: Camera :: Device :: Video :: Live :: Record and Write To Web Server
+ +
+ ============================================================================================================
+*/
+
+$_Application_Module_PlugIn_Camera_VIDEO_LIVE_RECORD			= "
+<SCRIPT>
+const videoElement			= document.getElementById('stream-element')
+
+var ButtonStart				= document.getElementById('stream-start')
+var ButtonEnd				= document.getElementById('stream-stop')
+var recorder;
+
+const settings				= {
+
+video: true,
+audio: true
+
+}
+
+ButtonStart.addEventListener('click', function (e) {
+	navigator.mediaDevices.getUserMedia(settings).then((stream) => {
+	console.log(stream);
+	videoElement.srcObject	= stream
+
+	recorder			= new MediaRecorder(stream)
+		console.log(recorder);
+
+		recorder.start();
+
+	const blobContainer		= [];
+
+recorder.ondataavailable		= function (e) {
+            
+	blobContainer.push(e.data)
+}
+
+recorder.onerror			= function (e) {
+
+	return console.log(e.error || new Error(e.name));
+}
+
+recorder.onstop = function (e) {
+	console.log(window.URL.createObjectURL(new Blob(blobContainer)));
+
+	var newVideoProperties		= document.createElement('video')
+	newVideoProperties.width	= '256'
+	newVideoProperties.height	= '144'
+	newVideoProperties.autoplay	= true
+	newVideoProperties.controls	= true
+	newVideoProperties.innerHTML	= `<source src=\"\${window.URL.createObjectURL(new Blob(blobContainer))}\"type=\"video/mp4\">`
+	document.body.removeChild(videoElement)
+	document.body.insertBefore(newVideoProperties, ButtonStart);
+
+	var formdata			= new FormData();
+	formdata.append('blobFile', new Blob(blobContainer));
+
+fetch('./System/Plug-Ins/Camera/Default/Processor.php', {
+	method: 'POST',
+	body: formdata
+}).then(()=>{
+
+	alert('Streams Message: This Live Video Stream Was Written To The Live Video Directory');
+
+})
+
+}
+
+})
+    
+})
+
+ButtonEnd.addEventListener('click', function (e) {
+	videoElement.pause();
+	recorder.stop();
+
+})
+</SCRIPT>
+";
+
+$_Application_Module_PlugIn_Camera_VIDEO_LIVE_RECORD			= "
+<SCRIPT>
+</SCRIPT>
+";
+?>
